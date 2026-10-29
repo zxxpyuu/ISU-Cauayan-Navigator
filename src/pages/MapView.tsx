@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { Circle, CircleMarker, GeoJSON, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Layers, Search } from 'lucide-react';
+import { Layers, LocateFixed, Search } from 'lucide-react';
 import { BuildingEntry, CAMPUS_GEOJSON, SEARCH_BUILDINGS_LIST } from '../data/campusGeoJSON';
 import { BuildingDetailPanel } from '../components/BuildingDetailPanel';
 import { MapController } from '../components/MapController';
@@ -39,6 +39,76 @@ function ResizeMap() {
   return null;
 }
 
+function LiveLocation({
+  isTracking,
+  onError
+}: {
+  isTracking: boolean;
+  onError: (message: string) => void;
+}) {
+  const map = useMap();
+  const [position, setPosition] = useState<[number, number] | null>(null);
+  const [accuracy, setAccuracy] = useState(0);
+
+  useEffect(() => {
+    if (!isTracking) {
+      setPosition(null);
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      onError('Location is not supported by this browser.');
+      return;
+    }
+
+    let hasCentered = false;
+    const watchId = navigator.geolocation.watchPosition(
+      ({ coords }) => {
+        const nextPosition: [number, number] = [coords.latitude, coords.longitude];
+        setPosition(nextPosition);
+        setAccuracy(coords.accuracy);
+
+        if (!hasCentered) {
+          map.flyTo(nextPosition, Math.max(map.getZoom(), 17), { duration: 1 });
+          hasCentered = true;
+        }
+      },
+      (error) => {
+        const message =
+          error.code === error.PERMISSION_DENIED
+            ? 'Location permission was denied. Allow access in your browser settings to use live location.'
+            : error.code === error.POSITION_UNAVAILABLE
+              ? 'Your location is unavailable right now.'
+              : 'The location request timed out. Try again.';
+        onError(message);
+      },
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+    );
+
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+      setPosition(null);
+    };
+  }, [isTracking, map, onError]);
+
+  if (!position) return null;
+
+  return (
+    <>
+      <Circle
+        center={position}
+        radius={accuracy}
+        pathOptions={{ color: '#2563eb', fillColor: '#3b82f6', fillOpacity: 0.12, weight: 1 }}
+      />
+      <CircleMarker
+        center={position}
+        radius={8}
+        pathOptions={{ color: '#ffffff', fillColor: '#2563eb', fillOpacity: 1, weight: 3 }}
+      />
+    </>
+  );
+}
+
 export function MapView() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -48,6 +118,13 @@ export function MapView() {
   const requestedId = Number(searchParams.get('building')) || 18; // CBM default
   const [selectedId, setSelectedId] = useState<number>(requestedId);
   const [panelOpen, setPanelOpen] = useState(true);
+  const [isTrackingLocation, setIsTrackingLocation] = useState(false);
+  const [locationError, setLocationError] = useState('');
+
+  const handleLocationError = useCallback((message: string) => {
+    setLocationError(message);
+    setIsTrackingLocation(false);
+  }, []);
 
   useEffect(() => {
     setSelectedId(requestedId);
@@ -157,13 +234,40 @@ export function MapView() {
           </div>
         )}
 
-        <button
-          className="bg-white/90 dark:bg-isu-charcoal-light/90 backdrop-blur-md p-3 rounded-2xl shadow-lg pointer-events-auto text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-isu-charcoal-light transition-colors border border-white/40 dark:border-isu-mint/20"
-          aria-label="Layers"
-        >
-          <Layers className="w-5 h-5" />
-        </button>
+        <div className="flex gap-2 pointer-events-auto">
+          <button
+            onClick={() => {
+              setLocationError('');
+              setIsTrackingLocation((tracking) => !tracking);
+            }}
+            className={`backdrop-blur-md p-3 rounded-2xl shadow-lg transition-colors border border-white/40 dark:border-isu-mint/20 ${
+              isTrackingLocation
+                ? 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300'
+                : 'bg-white/90 dark:bg-isu-charcoal-light/90 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-isu-charcoal-light'
+            }`}
+            aria-label={isTrackingLocation ? 'Stop sharing location' : 'Show my live location'}
+            aria-pressed={isTrackingLocation}
+            title={isTrackingLocation ? 'Stop live location' : 'Show my live location'}
+          >
+            <LocateFixed className="w-5 h-5" />
+          </button>
+          <button
+            className="bg-white/90 dark:bg-isu-charcoal-light/90 backdrop-blur-md p-3 rounded-2xl shadow-lg pointer-events-auto text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-isu-charcoal-light transition-colors border border-white/40 dark:border-isu-mint/20"
+            aria-label="Layers"
+          >
+            <Layers className="w-5 h-5" />
+          </button>
+        </div>
       </div>
+
+      {locationError && (
+        <p
+          className="absolute top-20 left-4 right-4 z-[1000] mx-auto max-w-md rounded-xl bg-white/95 dark:bg-isu-charcoal-light/95 px-4 py-3 text-sm text-gray-800 dark:text-gray-100 shadow-lg"
+          role="alert"
+        >
+          {locationError}
+        </p>
+      )}
 
       <div className="flex-1 w-full relative z-0">
         <MapContainer
@@ -199,6 +303,7 @@ export function MapView() {
 
           <ResizeMap />
           <MapController target={flyTarget} zoom={18} />
+          <LiveLocation isTracking={isTrackingLocation} onError={handleLocationError} />
         </MapContainer>
       </div>
 
@@ -213,4 +318,3 @@ export function MapView() {
     </div>
   );
 }
-

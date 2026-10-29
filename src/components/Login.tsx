@@ -1,6 +1,6 @@
 import { ISU_INFO } from '../data/isuMetadata';
-import '../script2.js';
-import '../style2.css';
+import '../../script2.js';
+import '../../style2.css';
 
 type LoginProps = {
   onSignIn: () => void;
