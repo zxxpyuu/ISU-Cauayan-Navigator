@@ -1,6 +1,8 @@
 
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { BottomNav } from './components/BottomNav';
+import { Login } from './components/Login';
 import { ThemeToggle } from './components/ThemeToggle';
 import { ThemeProvider } from './context/ThemeContext';
 import { Dashboard } from './pages/Dashboard';
@@ -41,6 +43,12 @@ function AppShell() {
 
 }
 export function App() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  if (!isSignedIn) {
+    return <Login onSignIn={() => setIsSignedIn(true)} />;
+  }
+
   return (
     <ThemeProvider>
       <BrowserRouter>

@@ -5,13 +5,13 @@
 module.exports = {
   darkMode: 'class',
   content: [
-  './index.html',
-  './src/**/*.{js,ts,jsx,tsx}'
-],
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}'
+  ],
   theme: {
     extend: {
       colors: {
-        'isu-green': '#046A38',
+        'isu-green': '#086839',
         'isu-green-light': '#0B6E4F',
         'isu-gold': '#D4A437',
         'isu-gold-light': '#E8C547',

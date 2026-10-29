@@ -283,7 +283,8 @@ imageUrl: '/ISU%20buildings/Polytechnic.jpg'
     properties: {
       name: 'Bachelor of Science in Industrial Technology Room B',
       category: 'Academic',
-      rooms: ['Workshop B']
+      rooms: ['Workshop B'],
+       imageUrl: '/ISU%20buildings/Poly.jpg'
     },
     geometry: {
       type: 'Polygon',
@@ -436,7 +437,9 @@ imageUrl: '/ISU%20buildings/CBM%20building%20OLD.jpg'
     properties: {
       name: 'College of Education',
       category: 'Academic',
-      rooms: ['Room 601', 'Room 602', 'Demo Classroom']
+      rooms: ['Room 601', 'Room 602', 'Demo Classroom'],
+
+       imageUrl: '/ISU%20buildings/educ.jpg'
     },
     geometry: {
       type: 'Polygon',
@@ -611,7 +614,10 @@ imageUrl: '/ISU%20buildings/CCJE2.jpg'
     properties: {
       name: 'College of Criminal Justice Education (Block 3)',
       category: 'Academic',
-      rooms: ['Room 703']
+      rooms: ['Room 703'],
+
+      imageUrl: '/ISU%20buildings/Block2.jpg'
+
     },
     geometry: {
       type: 'Polygon',
@@ -696,7 +702,8 @@ imageUrl: '/ISU%20buildings/Chapel.jpg'
     properties: {
       name: 'Parking Area',
       category: 'Service',
-      rooms: []
+      rooms: [],
+      imageUrl: '/ISU%20buildings/parking.jpg'
     },
     geometry: {
       type: 'Polygon',
@@ -717,7 +724,9 @@ imageUrl: '/ISU%20buildings/Chapel.jpg'
     properties: {
       name: 'Entrance',
       category: 'Access',
-      rooms: []
+      rooms: [],
+      imageUrl: '/ISU%20buildings/Gate.jpg'
+
     },
     geometry: {
       type: 'Polygon',

@@ -25,7 +25,7 @@ export function BottomNav() {
   }];
 
   return (
-    <nav className="bg-white/85 dark:bg-isu-charcoal/85 backdrop-blur-md border-t border-gray-200 dark:border-isu-mint/15 px-6 py-3 pb-6 sm:pb-3 flex justify-between items-center z-50 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] max-w-md mx-auto w-full">
+    <nav className="bg-white/85 dark:bg-isu-charcoal/85 backdrop-blur-md border-t border-gray-200 dark:border-isu-mint/15 px-6 py-3 pb-6 sm:pb-3 flex justify-between items-center z-50 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] w-full">
       {navItems.map((item) =>
       <NavLink
         key={item.path}

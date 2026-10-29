@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Compass, Eye, Target, Leaf } from 'lucide-react';
 import { ISU_INFO } from '../data/isuMetadata';

@@ -8,7 +8,6 @@ import {
   ChevronRight,
   Sparkles } from
 'lucide-react';
-import { ShareCard } from '../components/ShareCard';
 import { Header } from '../components/Header';
 import { ISU_INFO } from '../data/isuMetadata';
 export function Dashboard() {
@@ -36,8 +35,7 @@ export function Dashboard() {
     title: 'Student Manual',
     icon: Info,
     path: '/student-manual',
-    primary: false,
-    description: 'View the Student Manual PDF'
+    primary: false
   },
   {
     title: 'Emergency Hotlines',
@@ -78,7 +76,7 @@ export function Dashboard() {
             </span>
           </h2>
           <p className="text-xs opacity-80 mt-1">
-            Find any building or room across campus instantly.
+            Find your way to any building or room on campus.
           </p>
         </div>
 
@@ -89,15 +87,13 @@ export function Dashboard() {
           
           <Search className="w-5 h-5 text-isu-green dark:text-isu-mint" />
           <span className="text-gray-400 dark:text-gray-500 text-sm font-medium truncate">
-            Search Building (e.g., CCSICT) or Room...
+            Search Building (e.g., CCSICT, CBM) or Room...
           </span>
         </div>
 
-        {/* Share Card + Navigation Cards */}
+        {/* Navigation Cards */}
         <div className="space-y-3">
             <div className="space-y-3 pb-6">
-              <ShareCard />
-
               {menuItems.map((item, index) => (
               <button
                 key={index}
@@ -120,7 +116,7 @@ export function Dashboard() {
                       {item.title}
                     </h3>
                     {item.description && (
-                      <p className="text-white/80 dark:text-isu-mint/70 text-xs mt-0.5">
+                      <p className="text-white/80 dark:text-isu-mint/70 text-xs">
                         {item.description}
                       </p>
                     )}

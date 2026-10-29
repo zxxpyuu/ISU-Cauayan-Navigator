@@ -48,7 +48,7 @@ export function Credit() {
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mt-2">
             {APP_CREDIT.projectTitle}
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 leading-relaxed">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 leading-relaxed whitespace-pre-line">
             {APP_CREDIT.projectNote}
           </p>
         </div>
@@ -63,9 +63,9 @@ export function Credit() {
         </div>
 
         <div className="bg-white dark:bg-isu-charcoal-light rounded-2xl p-5 shadow-sm dark:shadow-none border border-gray-100 dark:border-white/5 text-center">
-          <p className="text-xs text-gray-500 dark:text-gray-400">Final Requirement for HCI 1</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Creative and Critical Thinking</p>
           <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
-            Prof. Sherryl Che
+            Crisbel Ortega
           </p>
         </div>
       </div>

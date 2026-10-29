@@ -22,7 +22,7 @@ export function Header({ scrolled = false }: HeaderProps) {
         <h1
           className={`ml-3 text-white dark:text-isu-mint font-semibold tracking-wide transition-all duration-300 ${scrolled ? 'text-sm' : 'text-lg'}`}>
           
-          ISU Cauayan Navigator
+          Isabela State University - Cauayan Campus Navigator
         </h1>
       </button>
     </header>);

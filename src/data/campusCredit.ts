@@ -10,36 +10,45 @@ export type CreditPageData = {
 };
 
 export const APP_CREDIT: CreditPageData = {
-  projectTitle: 'About the Project: ISU-Cauayan Navigator',
+  projectTitle: 'About the Project: Isabela State University - Cauayan Campus Navigator',
   projectNote:
     'The Vision\n' +
-    'The ISU-Cauayan Navigator is a specialized geospatial tool designed to bridge the gap between complex campus layouts and student accessibility. Our mission is to reduce "navigational friction" for freshmen and visitors by providing a high-fidelity, interactive digital map of the Isabela State University - Cauayan Campus.\n\n' +
-    'HCI Philosophy\n' +
-    'In accordance with the principles of HCI 2, this prototype focuses on:\n\n' +
-    'Intuitive Navigation: Eliminating the learning curve by using familiar map interactions.\n\n' +
-    'Visual Hierarchy: Utilizing branded color schemes and high-contrast elements to ensure clear readability.\n\n' +
-    'Real-World Utility: Moving beyond static images to a functional, searchable database of buildings and departments.\n\n' +
+    '- The Isabela State University - Cauayan Campus Navigator is an interactive campus navigation tool created to make it easier for students, freshmen, faculty, and visitors to find their way around the Isabela State University – Cauayan Campus.\n' +
+    '- The project aims to solve common navigation problems caused by unfamiliar campus layouts. Instead of relying on static maps or asking for directions, users can explore the campus digitally and quickly locate buildings, rooms, and important areas.\n\n' +
+    'Creative and Critical Thinking\n' +
+    'The project applies the principles of Creative and Critical Thinking by combining practical problem-solving with user-centered design.\n' +
+    '1. Intuitive Navigation: The system uses familiar map features such as zooming, panning, searching, and location markers, making it easy to understand even for first-time users.\n' +
+    '2. Clear Visual Design: The interface uses organized layouts, readable text, campus-themed colors, and clear markers to help users quickly identify important locations.\n' +
+    '3. Real-World Utility: Rather than creating only a static campus map, the project provides an interactive and searchable system that can help users locate buildings, rooms, offices, and other campus facilities.\n\n' +
     'Academic Context\n' +
-    'This project serves as the Final Requirement for the HCI 2 (Human-Computer Interaction) course under Prof. Sherryl Che. It demonstrates the application of user-centered design, iterative prototyping, and the integration of modern web technologies to solve community-specific challenges.\n\n' +
-    'Development Stack\n' +
-    'Built using a modern technical stack to ensure performance and scalability:\n\n' +
-    'React & Vite: For a fast, responsive user interface.\n\n' +
-    'TypeScript: To ensure code reliability and structured data handling.\n\n' +
-    'Tailwind CSS: For custom, professional-grade styling.\n\n' +
-    'Leaflet.js: To power the interactive geospatial mapping engine.\n\n' +
+    '- The Isabela State University - Cauayan Campus Navigator was developed as a Final Requirement for the Creative and Critical Thinking course under Prof. Crisbel Ortega.\n' +
+    '- The project demonstrates how creative thinking, critical analysis, user-centered design, and technology can be combined to address a real problem within the university community. Through planning, designing, testing, and improving the prototype, the project focuses on creating a useful and accessible solution for campus navigation.\n\n' +
     'The Project Team\n' +
-    'Manuel Babaran IV – Lead Developer & Systems Architect\n\n' +
-    'Aira Labog Escartin – Documentation\n\n' +
-    'Aldine Domdom – Data Resource Coordinator\n\n' +
-    'Raymond Ribao – Site Surveyor & Documentation\n\n' +
-    'Reynier Abad – Quality Assurance & Testing\n\n' +
-    'Prof. Sherryl Che – Instructor / Adviser',
+    'Claire Bautista – Member\n' +
+    'Ace Concepcion – Member\n' +
+    'Ariana Farah Libari – Member\n' +
+    'Carl James Mamuad – Member\n' +
+    'Jan Win Medina – Member\n' +
+    'Princes Joy Palaguitto – Member\n' +
+    'Zyanne Pasiola – Member\n' +
+    'Rayver Quilang – Member\n' +
+    'Justin Roque – Member\n' +
+    'Sasy Mae Rosete – Member\n' +
+    'John Mikel Tolentino – Member\n' +
+
+    'Prof. Crisbel Ortega – Instructor / Adviser',
   people: [
-    { name: 'Manuel Babaran IV', role: 'Lead Developer & Systems Architect' },
-    { name: 'Aira Labog Escartin', role: 'Documentation' },
-    { name: 'Aldine Domdom', role: 'Data Resource Coordinator' },
-    { name: 'Wala pa nga nii', role: 'Site Surveyor & Documentation' },
-    { name: 'Reynier Abad', role: 'Quality Assurance & Testing' },
-    { name: 'Prof. Sherryl Che', role: 'Instructor / Adviser' }
+    { name: 'Claire Bautista', role: 'Member' },
+    { name: 'Ace Concepcion', role: 'Member' },
+    { name: 'Ariana Farah Libari', role: 'Member' },
+    { name: 'Carl James Mamuad', role: 'Member' },
+    { name: 'Jan Win Medina', role: 'Member' },
+    { name: 'Princes Joy Palaguitto', role: 'Member' },
+    { name: 'Zyanne Pasiola', role: 'Member' },
+    { name: 'Rayver Quilang', role: 'Member' },
+    { name: 'Justin Roque', role: 'Member' },
+    { name: 'Sasy Mae Rosete', role: 'Member' },
+    { name: 'John Mikel Tolentino', role: 'Member' },
+    { name: 'Prof. Crisbel Ortega', role: 'Instructor / Adviser' }
   ]
 };
