@@ -9,8 +9,9 @@
 .auth-page {
     min-height: 100vh;
     padding: 24px;
-    background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    background:
+        linear-gradient(rgba(5, 24, 16, 0.48), rgba(5, 24, 16, 0.62)),
+        url('/ISU%20buildings/Gate.jpg') center / cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,10 +129,17 @@
 }
 
 .auth-page .auth-seal {
-    width: 52px;
-    height: 52px;
+    display: block;
+    flex: 0 0 auto;
+    width: 76px;
+    height: 76px;
     object-fit: contain;
-    margin-bottom: 8px;
+    padding: 4px;
+    margin-bottom: 12px;
+    border: 2px solid #d4a437;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
 }
 
 .auth-page .auth-note {
@@ -153,6 +161,47 @@
     margin-top: 16px !important;
     padding: 4px !important;
     text-transform: none !important;
+}
+
+.auth-page .auth-switch-link {
+    background: none !important;
+    border: 0 !important;
+    color: #046a38 !important;
+    cursor: pointer;
+    font-size: 12px !important;
+    margin-top: 12px !important;
+    padding: 4px !important;
+    text-transform: none !important;
+}
+
+.auth-page .auth-switch-link:hover {
+    text-decoration: underline;
+}
+
+.auth-page .auth-feedback {
+    position: absolute;
+    z-index: 1001;
+    bottom: 12px;
+    left: 50%;
+    width: calc(100% - 32px);
+    max-width: 460px;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+}
+
+.auth-page .auth-feedback.is-error {
+    color: #991b1b;
+    background: #fef2f2;
+}
+
+.auth-page .auth-feedback.is-success {
+    color: #166534;
+    background: #f0fdf4;
 }
 
 .auth-page .toggle-container {

@@ -1,7 +1,6 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Map as MapIcon, Search, Info } from 'lucide-react';
-export function BottomNav() {
+import { Home, Map as MapIcon, Search, Info, LogOut } from 'lucide-react';
+export function BottomNav({ onSignOut }: { onSignOut?: () => void }) {
   const navItems = [
   {
     path: '/',
@@ -40,6 +39,18 @@ export function BottomNav() {
             {item.label}
           </span>
         </NavLink>
+      )}
+      {onSignOut && (
+        <button
+          type="button"
+          onClick={onSignOut}
+          aria-label="Sign out"
+          title="Sign out"
+          className="flex flex-col items-center justify-center w-12 h-12 rounded-xl text-gray-400 dark:text-gray-500 hover:text-red-600 transition-colors"
+        >
+          <LogOut className="w-6 h-6" strokeWidth={2.5} />
+          <span className="text-[10px] font-medium opacity-0 h-0 overflow-hidden">Sign out</span>
+        </button>
       )}
     </nav>);
 

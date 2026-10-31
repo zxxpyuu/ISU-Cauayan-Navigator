@@ -1,6 +1,13 @@
 import { campusData } from './campusData';
 
-
+export const CAMPUS_BOUNDARY: [number, number][] = [
+  [121.76602360314433, 16.940226949301177],
+  [121.76465707876167, 16.94051063525619],
+  [121.76313866880798, 16.935870971923464],
+  [121.76451775690947, 16.935569905801685],
+  [121.76606549207202, 16.940196874557984],
+  [121.76598031495917, 16.940249676212602]
+];
 
 export const CAMPUS_GEOJSON: any = {
   type: 'FeatureCollection',
@@ -10,13 +17,7 @@ export const CAMPUS_GEOJSON: any = {
     properties: { name: 'Campus' },
     geometry: {
       type: 'LineString',
-      coordinates: [
-      [121.76602360314433, 16.940226949301177],
-      [121.76465707876167, 16.94051063525619],
-      [121.76313866880798, 16.935870971923464],
-      [121.76451775690947, 16.935569905801685],
-      [121.76606549207202, 16.940196874557984],
-      [121.76598031495917, 16.940249676212602]]
+      coordinates: CAMPUS_BOUNDARY
 
     }
   },
@@ -1015,5 +1016,4 @@ export const ROOMS_LIST: RoomEntry[] = SEARCH_BUILDINGS_LIST.flatMap((b) =>
         (other) => other.buildingId === entry.buildingId && other.room === entry.room
       )
 );
-
 
