@@ -104,7 +104,7 @@ export function Login() {
             <input
               type="email"
               name="signup-email"
-              placeholder="name.surname_cyn@isu.edu.ph"
+              placeholder="School email"
               required
               pattern={ISU_EMAIL_PATTERN}
               title="Use the format name.surname_cyn@isu.edu.ph"
@@ -141,7 +141,7 @@ export function Login() {
             <input
               type="email"
               name="email"
-              placeholder="name.surname_cyn@isu.edu.ph"
+              placeholder="School email"
               required
               pattern={ISU_EMAIL_PATTERN}
               title="Use the format name.surname_cyn@isu.edu.ph"
