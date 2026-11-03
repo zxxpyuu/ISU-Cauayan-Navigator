@@ -66,7 +66,7 @@ export function Login() {
     const password = String(formData.get('signup-password') ?? '');
 
     if (!isIsuEmail(email)) {
-      setMessage('Use the email format name.surname_cyn@isu.edu.ph.');
+      setMessage('Use the school email format');
       setIsError(true);
       return;
     }
@@ -158,7 +158,7 @@ export function Login() {
               {isSubmitting ? 'Please wait...' : 'Sign In'}
             </button>
             <p className="auth-note">
-              Use your name.surname_cyn@isu.edu.ph email and account password to sign in.
+              Use your valid school email and account password to sign in.
             </p>
             <button className="auth-mobile-switch" data-auth-mode="register" type="button">
               Create an account
