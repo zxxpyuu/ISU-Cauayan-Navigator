@@ -71,6 +71,8 @@ function LiveLocation({
         if (!hasCentered) {
           map.flyTo(nextPosition, Math.max(map.getZoom(), 17), { duration: 1 });
           hasCentered = true;
+        } else {
+          map.panTo(nextPosition, { animate: true, duration: 0.35 });
         }
       },
       (error) => {
@@ -245,9 +247,9 @@ export function MapView() {
                 ? 'bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300'
                 : 'bg-white/90 dark:bg-isu-charcoal-light/90 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-isu-charcoal-light'
             }`}
-            aria-label={isTrackingLocation ? 'Stop sharing location' : 'Show my live location'}
+            aria-label={isTrackingLocation ? 'Stop following my location' : 'Follow my live location'}
             aria-pressed={isTrackingLocation}
-            title={isTrackingLocation ? 'Stop live location' : 'Show my live location'}
+            title={isTrackingLocation ? 'Stop following my location' : 'Follow my live location'}
           >
             <LocateFixed className="w-5 h-5" />
           </button>

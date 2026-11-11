@@ -47,7 +47,41 @@ function AppShell({ onSignOut }: { onSignOut?: () => void }) {
 
 }
 
-function isInsideCampus(latitude: number, longitude: number) {
+function distanceToBoundarySegmentMeters(
+  latitude: number,
+  longitude: number,
+  start: [number, number],
+  end: [number, number]
+) {
+  const referenceLatitude = (latitude + start[1] + end[1]) / 3;
+  const metersPerLongitudeDegree = 111320 * Math.cos((referenceLatitude * Math.PI) / 180);
+  const pointX = longitude * metersPerLongitudeDegree;
+  const pointY = latitude * 111320;
+  const startX = start[0] * metersPerLongitudeDegree;
+  const startY = start[1] * 111320;
+  const endX = end[0] * metersPerLongitudeDegree;
+  const endY = end[1] * 111320;
+  const segmentX = endX - startX;
+  const segmentY = endY - startY;
+  const segmentLengthSquared = segmentX * segmentX + segmentY * segmentY;
+  const projection =
+    segmentLengthSquared === 0
+      ? 0
+      : Math.max(
+          0,
+          Math.min(
+            1,
+            ((pointX - startX) * segmentX + (pointY - startY) * segmentY) /
+              segmentLengthSquared
+          )
+        );
+  const nearestX = startX + projection * segmentX;
+  const nearestY = startY + projection * segmentY;
+
+  return Math.hypot(pointX - nearestX, pointY - nearestY);
+}
+
+function isInsideCampus(latitude: number, longitude: number, accuracyMeters: number) {
   let inside = false;
 
   for (let index = 0, previous = CAMPUS_BOUNDARY.length - 1; index < CAMPUS_BOUNDARY.length; previous = index++) {
@@ -75,7 +109,17 @@ function isInsideCampus(latitude: number, longitude: number) {
     if (crossesRay) inside = !inside;
   }
 
-  return inside;
+  if (inside) return true;
+
+  const toleranceMeters = Math.min(Math.max(accuracyMeters, 0), 75);
+  if (toleranceMeters === 0) return false;
+
+  return CAMPUS_BOUNDARY.some((point, index) => {
+    const nextPoint = CAMPUS_BOUNDARY[(index + 1) % CAMPUS_BOUNDARY.length];
+    return (
+      distanceToBoundarySegmentMeters(latitude, longitude, point, nextPoint) <= toleranceMeters
+    );
+  });
 }
 
 function CampusAccessGate({
@@ -103,7 +147,11 @@ function CampusAccessGate({
 
     const watchId = navigator.geolocation.watchPosition(
       ({ coords }) => {
-        setStatus(isInsideCampus(coords.latitude, coords.longitude) ? 'inside' : 'outside');
+        setStatus(
+          isInsideCampus(coords.latitude, coords.longitude, coords.accuracy)
+            ? 'inside'
+            : 'outside'
+        );
       },
       (error) => {
         setStatus('unavailable');

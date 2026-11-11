@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -7,7 +8,8 @@ import {
   Info,
   ChevronRight,
   Sparkles,
-  Download } from
+  Download,
+  MessageSquareWarning } from
 'lucide-react';
 import { Header } from '../components/Header';
 import { ISU_INFO } from '../data/isuMetadata';
@@ -15,6 +17,7 @@ export function Dashboard() {
   const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -22,6 +25,21 @@ export function Dashboard() {
     el.addEventListener('scroll', handle);
     return () => el.removeEventListener('scroll', handle);
   }, []);
+
+  const submitMapIssueReport = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const issueType = String(formData.get('issue-type') ?? '').trim();
+    const location = String(formData.get('location') ?? '').trim();
+    const details = String(formData.get('details') ?? '').trim();
+    const subject = encodeURIComponent(`Campus map issue: ${issueType}`);
+    const body = encodeURIComponent(
+      `Issue type: ${issueType}\nLocation or building: ${location || 'Not specified'}\n\nDetails:\n${details}`
+    );
+
+    window.location.href = `mailto:zyannepasiola714@gmail.com?subject=${subject}&body=${body}`;
+  };
+
   const menuItems = [
   {
     title: 'Interactive Map (Live View)',
@@ -168,6 +186,83 @@ export function Dashboard() {
             ))}
           </div>
         </div>
+
+        <section className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:border-white/5 dark:bg-isu-charcoal-light">
+          <div className="flex items-start gap-3">
+            <div className="rounded-xl bg-isu-green/10 p-2.5 text-isu-green dark:bg-isu-mint/10 dark:text-isu-mint">
+              <MessageSquareWarning className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
+                Report a map issue
+              </h2>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Tell us about an incorrect building, label, or map location.
+              </p>
+              <button
+                type="button"
+                onClick={() => setIsReportOpen((open) => !open)}
+                aria-expanded={isReportOpen}
+                className="mt-3 rounded-xl bg-isu-green px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-isu-green/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-isu-green dark:bg-isu-mint dark:text-isu-charcoal dark:hover:bg-isu-mint/90"
+              >
+                {isReportOpen ? 'Close report form' : 'Report an issue'}
+              </button>
+            </div>
+          </div>
+
+          {isReportOpen && (
+            <form onSubmit={submitMapIssueReport} className="mt-4 space-y-3">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300">
+                Issue type
+                <select
+                  name="issue-type"
+                  required
+                  className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-isu-green dark:border-white/10 dark:bg-isu-charcoal dark:text-white"
+                >
+                  <option value="">Choose an issue</option>
+                  <option value="Incorrect building location">Incorrect building location</option>
+                  <option value="Incorrect building name or details">Incorrect building name or details</option>
+                  <option value="Missing building or place">Missing building or place</option>
+                  <option value="Other map issue">Other map issue</option>
+                </select>
+              </label>
+
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300">
+                Building or location (optional)
+                <input
+                  name="location"
+                  type="text"
+                  maxLength={120}
+                  placeholder="e.g., Library entrance"
+                  className="mt-1 w-full rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-isu-green dark:border-white/10 dark:bg-isu-charcoal dark:text-white"
+                />
+              </label>
+
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300">
+                What is wrong?
+                <textarea
+                  name="details"
+                  required
+                  minLength={10}
+                  maxLength={1000}
+                  rows={4}
+                  placeholder="Describe the issue so we can find and fix it."
+                  className="mt-1 w-full resize-y rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none focus:border-isu-green dark:border-white/10 dark:bg-isu-charcoal dark:text-white"
+                />
+              </label>
+
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                This opens a pre-filled email. Review it and send it from your email app.
+              </p>
+              <button
+                type="submit"
+                className="w-full rounded-xl bg-isu-green px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-isu-green/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-isu-green dark:bg-isu-mint dark:text-isu-charcoal dark:hover:bg-isu-mint/90"
+              >
+                Continue to email
+              </button>
+            </form>
+          )}
+        </section>
       </div>
     </div>);
 

@@ -9,7 +9,7 @@
 ## Supabase setup
 
 1. Create a Supabase project and enable email/password sign-in.
-2. Enable email confirmation in the Supabase Auth settings.
+2. Keep email confirmation enabled in Supabase Auth so users must verify their ISU inbox before signing in off campus.
 3. Set the Auth Site URL and allowed redirect URLs to the local development address and the deployed Vercel URL.
 4. In the Supabase SQL Editor, run [`supabase/enforce-isu-email.sql`](./supabase/enforce-isu-email.sql) to restrict account creation to `@isu.edu.ph` addresses.
 5. Copy the project URL and anon/public key into `.env.local` as `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`. Never put a Supabase service-role key in the frontend.
