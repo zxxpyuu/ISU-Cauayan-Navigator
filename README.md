@@ -6,6 +6,18 @@
 2. Copy `.env.example` to `.env.local` and add the Supabase project URL and public anon key.
 3. Run the app with `npm run dev`.
 
+## Mobile apps (Android and iOS)
+
+This project uses Capacitor to package the same app for Android and iOS. The Android project is in `android/`; the iOS project is in `ios/`.
+
+### Android APK
+
+The dashboard's Quick access section links to the Android APK at `public/downloads/app-debug.apk`; it is served in the deployed app at `/downloads/app-debug.apk`. Install Android Studio with Android SDK Platform 36 and JDK 21. To rebuild the debug APK, run `npm run cap:build:android:apk`; the output is `android/app/build/outputs/apk/debug/app-debug.apk`. Copy the new APK to `public/downloads/app-debug.apk` before deploying so the download link serves the latest build. To open the project in Android Studio, run `npm run cap:open:android`. You can also use `npm run cap:run:android` with a connected Android device or emulator.
+
+### iOS app
+
+iOS builds require a Mac with Xcode. Run `npm run cap:sync`, then `npm run cap:open:ios` to open the Xcode project. Choose a signing team in Xcode to install on a device or archive for TestFlight/App Store. The app asks for location permission because guest access and live location depend on it.
+
 ## Supabase setup
 
 1. Create a Supabase project and enable email/password sign-in.

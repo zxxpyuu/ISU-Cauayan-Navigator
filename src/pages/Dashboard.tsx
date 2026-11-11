@@ -128,6 +128,17 @@ export function Dashboard() {
                 <Download className="h-4 w-4" aria-hidden="true" />
                 Download QR
               </a>
+              <a
+                href="/downloads/app-debug.apk"
+                download="app-debug.apk"
+                className="mt-2 inline-flex items-center gap-2 rounded-xl border border-isu-green/20 bg-white px-3 py-2 text-xs font-semibold text-isu-green transition-colors hover:bg-isu-green/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-isu-green dark:border-isu-mint/20 dark:bg-isu-charcoal dark:text-isu-mint dark:hover:bg-isu-mint/10"
+              >
+                <Download className="h-4 w-4" aria-hidden="true" />
+                Download Android APK
+              </a>
+              <p className="mt-1 text-[10px] text-gray-500 dark:text-gray-400">
+                Android only · 53 MB
+              </p>
             </div>
             <a
               href="/Qr.png"

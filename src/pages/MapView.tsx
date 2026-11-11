@@ -6,6 +6,7 @@ import { BuildingEntry, CAMPUS_GEOJSON, SEARCH_BUILDINGS_LIST } from '../data/ca
 import { BuildingDetailPanel } from '../components/BuildingDetailPanel';
 import { MapController } from '../components/MapController';
 import { useTheme } from '../context/ThemeContext';
+import { watchDeviceLocation } from '../lib/deviceLocation';
 import L from 'leaflet';
 
 const CENTER: [number, number] = [16.9376, 121.7644];
@@ -56,17 +57,16 @@ function LiveLocation({
       return;
     }
 
-    if (!navigator.geolocation) {
-      onError('Location is not supported by this browser.');
-      return;
-    }
-
     let hasCentered = false;
-    const watchId = navigator.geolocation.watchPosition(
-      ({ coords }) => {
-        const nextPosition: [number, number] = [coords.latitude, coords.longitude];
+    let isActive = true;
+    let stopWatching: (() => void) | undefined;
+
+    void watchDeviceLocation(
+      (coordinates) => {
+        if (!isActive) return;
+        const nextPosition: [number, number] = [coordinates.latitude, coordinates.longitude];
         setPosition(nextPosition);
-        setAccuracy(coords.accuracy);
+        setAccuracy(coordinates.accuracy);
 
         if (!hasCentered) {
           map.flyTo(nextPosition, Math.max(map.getZoom(), 17), { duration: 1 });
@@ -75,20 +75,27 @@ function LiveLocation({
           map.panTo(nextPosition, { animate: true, duration: 0.35 });
         }
       },
-      (error) => {
-        const message =
-          error.code === error.PERMISSION_DENIED
-            ? 'Location permission was denied. Allow access in your browser settings to use live location.'
-            : error.code === error.POSITION_UNAVAILABLE
-              ? 'Your location is unavailable right now.'
-              : 'The location request timed out. Try again.';
-        onError(message);
+      (message) => {
+        if (isActive) onError(message);
       },
       { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+    ).then(
+      (stop) => {
+        if (isActive) stopWatching = stop;
+        else stop();
+      },
+      (error: unknown) => {
+        if (isActive) {
+          onError(
+            error instanceof Error ? error.message : 'Unable to access your device location.'
+          );
+        }
+      }
     );
 
     return () => {
-      navigator.geolocation.clearWatch(watchId);
+      isActive = false;
+      stopWatching?.();
       setPosition(null);
     };
   }, [isTracking, map, onError]);

@@ -15,6 +15,7 @@ import { Credit } from './pages/Credit';
 import { EmergencyHotlines } from './pages/EmergencyHotlines';
 import { CAMPUS_BOUNDARY } from './data/campusGeoJSON';
 import { supabase } from './lib/supabase';
+import { watchDeviceLocation } from './lib/deviceLocation';
 import type { Session } from '@supabase/supabase-js';
 
 function AppShell({ onSignOut }: { onSignOut?: () => void }) {
@@ -139,34 +140,42 @@ function CampusAccessGate({
     setStatus('checking');
     setErrorMessage('');
 
-    if (!navigator.geolocation) {
-      setStatus('unavailable');
-      setErrorMessage('Location services are not supported by this browser.');
-      return;
-    }
+    let isActive = true;
+    let stopWatching: (() => void) | undefined;
 
-    const watchId = navigator.geolocation.watchPosition(
-      ({ coords }) => {
+    void watchDeviceLocation(
+      (coordinates) => {
+        if (!isActive) return;
         setStatus(
-          isInsideCampus(coords.latitude, coords.longitude, coords.accuracy)
+          isInsideCampus(coordinates.latitude, coordinates.longitude, coordinates.accuracy)
             ? 'inside'
             : 'outside'
         );
       },
-      (error) => {
+      (message) => {
+        if (!isActive) return;
         setStatus('unavailable');
-        setErrorMessage(
-          error.code === error.PERMISSION_DENIED
-            ? 'Allow location access in your browser to use the campus navigator.'
-            : error.code === error.POSITION_UNAVAILABLE
-              ? 'Your location is unavailable. Check that location services are enabled.'
-              : 'Location check timed out. Try again.'
-        );
+        setErrorMessage(message);
       },
       { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 }
+    ).then(
+      (stop) => {
+        if (isActive) stopWatching = stop;
+        else stop();
+      },
+      (error: unknown) => {
+        if (!isActive) return;
+        setStatus('unavailable');
+        setErrorMessage(
+          error instanceof Error ? error.message : 'Unable to access your device location.'
+        );
+      }
     );
 
-    return () => navigator.geolocation.clearWatch(watchId);
+    return () => {
+      isActive = false;
+      stopWatching?.();
+    };
   }, [attempt]);
 
   if (status === 'inside') return children;
