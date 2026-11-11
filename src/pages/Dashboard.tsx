@@ -6,7 +6,8 @@ import {
   ShieldAlert,
   Info,
   ChevronRight,
-  Sparkles } from
+  Sparkles,
+  Download } from
 'lucide-react';
 import { Header } from '../components/Header';
 import { ISU_INFO } from '../data/isuMetadata';
@@ -90,6 +91,41 @@ export function Dashboard() {
             Search Building (e.g., CCSICT, CBM) or Room...
           </span>
         </div>
+
+        {/* Quick access QR code */}
+        <section className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:border-white/5 dark:bg-isu-charcoal-light">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
+                Quick access
+              </h2>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Scan this QR code to open the campus navigator on your phone.
+              </p>
+              <a
+                href="/Qr.png"
+                download="ISU-Cauayan-Navigator-QR.png"
+                className="mt-3 inline-flex items-center gap-2 rounded-xl bg-isu-green px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-isu-green/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-isu-green dark:bg-isu-mint dark:text-isu-charcoal dark:hover:bg-isu-mint/90"
+              >
+                <Download className="h-4 w-4" aria-hidden="true" />
+                Download QR
+              </a>
+            </div>
+            <a
+              href="/Qr.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View QR code in a new tab"
+              className="shrink-0 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-isu-green"
+            >
+              <img
+                src="/Qr.png"
+                alt="QR code for the ISU Cauayan campus navigator"
+                className="h-28 w-28 rounded-xl border border-gray-100 object-contain dark:border-white/10"
+              />
+            </a>
+          </div>
+        </section>
 
         {/* Navigation Cards */}
         <div className="space-y-3">
